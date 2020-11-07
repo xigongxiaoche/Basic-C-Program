@@ -1,0 +1,99 @@
+#include<stdio.h>
+void show()
+{
+	printf("**********计算器******************\n");
+	printf("**********************************\n");
+	printf("             命令                 \n");
+	printf("            0:退出                \n");
+	printf("       1:加     2:减              \n");
+	printf("       3:乘     4:除              \n");
+	printf("       5:取余   6.求幂            \n");
+	printf("**********************************\n");
+}
+void add(int x1, int x2)
+{
+	int sum = x1 + x2;
+	printf("%d+%d=%d\n", x1, x2, sum);
+}
+
+void minus(int x1, int x2)
+{
+	int result = x1 - x2;
+	printf("%d-%d=%d\n", x1, x2, result);
+}
+
+void mutiply(int x1, int x2)
+{
+	int result = x1*x2;
+	printf("%d*%d=%d\n", x1, x2, result);
+}
+
+void divide(int x1, int x2)
+{
+	int result = x1 / x2;
+	printf("%d/%d=%d\n", x1, x2, result);
+}
+
+void complement(int x1, int x2)
+{
+	int result = x1%x2;
+	printf("%d%%%d=%d\n", x1, x2, result);//  输出%标志：%%（%前再加一个%)
+}
+
+void exp(int x1, int x2)
+{
+	int result=1,i;
+	for (i = 1; i <= x2; i++)
+	{
+		result *= x1;
+	}
+	printf("%d^%d=%d\n", x1, x2, result);
+}
+
+int  main()
+{
+	system("title 简易计算器");//设置窗口名
+	system("mode con lines=22 cols=37");
+	while (1){
+		show();
+		printf("请输入你要进行的操作：》");
+		int command;
+		scanf_s("%d", &command);
+		if (command == 0)
+			break;
+		if (command<0 || command>6){
+			printf("没有这种操作\n");
+			system("pause");
+			system("cls");
+		}
+		else{
+			printf("请输入你要进行运算的两个数(中间以空格隔开）：》");
+			int x, y;
+			scanf_s("%d %d", &x, &y);
+			switch (command)
+			{
+			case 1:
+				add(x, y);
+				break;
+			case 2:
+				minus(x, y);
+				break;
+			case 3:
+				mutiply(x, y);
+				break;
+			case 4:
+				divide(x, y);
+				break;
+			case 5:
+				complement(x, y);
+				break;
+			case 6:
+				exp(x, y);
+				break;
+			}
+			system("pause");//每次计算命令结束后暂停
+			system("cls");	//清楚之前的记录
+		}
+	}
+	return 0;
+}
