@@ -1,0 +1,26 @@
+#include<stdio.h>
+int main()
+{
+	char name[10], pwd[10];
+	int count = 3;
+	while (count)
+	{
+		printf("用户名：》");
+		scanf("%s", &name);
+		printf("请输入密码：》");
+		scanf("%s", &pwd);
+	if (strcmp(name,"cxp" )==0 && strcmp(pwd,"123")==0)
+	{
+		printf("登陆成功！\n");
+		break;
+	}
+	else
+	{
+		printf("登陆失败！请重新输入\n");
+		count--;
+	}
+	system("pause");
+	system("cls");
+}
+return 0;
+}

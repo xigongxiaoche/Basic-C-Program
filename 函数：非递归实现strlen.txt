@@ -1,0 +1,10 @@
+int mystrlen(char *a)
+{
+	int count = 0;
+	while ( *a != '\0')
+	{
+		count++;
+		a++;
+	}
+		return count;
+}
