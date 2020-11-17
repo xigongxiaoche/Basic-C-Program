@@ -1,0 +1,26 @@
+#include<stdio.h>
+int main()
+{
+	int num1 = 0;
+	int num2 = 0;
+	int i = 0;
+	int count = 0;
+	printf("请输入两个数:");
+	scanf("%d %d", &num1, &num2);
+	int arr1[32] = { 0 };
+	int arr2[32] = { 0 };
+	for (i = 0; i < 32; i++)
+	{
+		arr1[i] = num1 % 2;
+		arr2[i] = num2 % 2;
+		if (arr1[i] != arr2[i])
+		{
+			count++;
+		}
+		num1 = num1 / 2;
+		num2 = num2 / 2;
+	}
+	printf("这两个数二进制之间不同的位数为：%d\n ", count);
+	system("pause");
+	return 0;
+}

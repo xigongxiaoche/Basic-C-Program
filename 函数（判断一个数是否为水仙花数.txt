@@ -1,0 +1,15 @@
+void NarcissisticNumber(int number)
+{
+	int z = number; 
+	int t = 0;
+	while (z>0)
+	{
+		t += pow(z % 10, 3);  //从末位开始分割
+		z /= 10;  //每次缩减一位
+	}
+
+	if (number == t)
+	{
+		printf("%d", number);  //判断是否属于水仙花数
+	}
+}

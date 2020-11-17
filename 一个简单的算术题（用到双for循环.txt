@@ -1,0 +1,29 @@
+#include<stdio.h>
+int main()
+{
+	/*
+	输入a,n,计算Sn,
+		求Sn=a+aa+aaa+aaaa+aaaaa的前5项之和，其中a是一个数字，
+	例如：a=1,n=5;
+	2+22+222+2222+22222
+	先计算n个a的大小，再累加起来
+	*/
+	int a, n;
+	printf("请分别输入a,n:>");
+	scanf("%d %d", &a, &n);
+	int s1=0, sum=0;
+	int i,j,t = 1;
+	for (j = 1; j <= n; j++)
+	{
+		s1 = 0;
+		t = 1;
+		for (i = 1; i <= j; i++)
+		{
+			s1 += a*t;
+			t *= 10;
+		}
+		sum += s1;
+	}
+	printf("sum=%d\n", sum);
+	return 0;
+}

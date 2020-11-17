@@ -1,0 +1,14 @@
+#include<stdio.h>
+int main()
+{
+	//使用指针打印一个一维整形数组
+	int arr[12] = { 1, 23, 556, 0, 89, -123 };
+	int *p = arr;
+	int i;
+	for (i = 0; i < 12; i++)
+	{
+		printf("%d     ", *(p + i));
+	}
+	printf("\n");
+		return 0;
+}

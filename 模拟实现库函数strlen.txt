@@ -1,0 +1,19 @@
+#include<stdio.h>
+int Mystrlen(char *p)
+{
+	int count = 0;
+	while (*p != '\0')
+	{
+		count++;
+		p++;
+	}
+	return count;
+}
+int main()
+{
+	//模拟实现库函数strlen
+	char arr[] = "sketch plane";
+	int len = Mystrlen(arr);
+	printf("len=%d\n", len);
+	return 0;
+}

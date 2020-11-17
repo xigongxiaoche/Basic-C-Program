@@ -1,0 +1,35 @@
+#include<stdio.h>
+int f(int money)
+{
+	int count = money;//买到的汽水数量
+	int newExchangeCount=1;//新换的汽水数量，为什么要初始化为1？不初始化结果也是对的
+	int newExchangeCountResidue;//新换剩余的空瓶子数量
+	while (newExchangeCount != 0)
+	{
+		newExchangeCount = money / 2;//新换的汽水数量
+		newExchangeCountResidue = money % 2;//新换的剩余空瓶子数量
+		money = newExchangeCount + newExchangeCountResidue;//此时money就相当于总的瓶数
+		count = count + newExchangeCount;//总数量就是买到的数量+新换来的数量
+	}
+	return count;
+}
+int main()
+{
+	/*
+	喝汽水，1瓶汽水1元，2个空瓶可以换一瓶汽水，给20元，最多可以喝可以多少汽水（编程实现）
+	20元买20瓶，喝完后剩余20个空瓶，
+	20个空瓶可以换10瓶汽水，
+	10瓶汽水喝完后有10个空瓶，
+	10个空瓶可以换5瓶汽水，
+	5瓶汽水喝完后有5个空瓶，
+	5个空瓶可以换2瓶汽水，还剩下1个空瓶，
+	2瓶汽水喝完有2个空瓶，可以换1瓶汽水，
+	1瓶汽水喝完后剩1个空瓶，
+	加上之前生剩余的1个空瓶，2个空瓶换1瓶汽水；
+	汽水数=20+10+5+2+1+1=39
+	*/
+	int x = 20;
+	int MaxDrinkSum = f(x);
+	printf("%d元最多喝%d瓶汽水\n", x, MaxDrinkSum);
+	return 0;
+}

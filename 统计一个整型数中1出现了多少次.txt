@@ -1,0 +1,23 @@
+#include<stdio.h>
+int main()
+{
+	//统计二进制中1的个数
+	int num;
+	printf("请输入一个数：》");
+	scanf("%d", &num);
+	int num1 = num;
+	int arr[32] = { 0 };
+	int count= 0;
+	int i;
+	for (i = 0; i < 32; i++)
+	{
+		arr[i] = num%2;
+		if (arr[i] == 1)
+		{
+			count++;
+		}
+		num /= 2;
+	}
+	printf("%d中1出现了%d次\n", num1, count);
+		return 0;
+	}

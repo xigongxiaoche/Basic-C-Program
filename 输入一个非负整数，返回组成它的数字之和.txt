@@ -1,0 +1,37 @@
+#include<stdio.h>
+int DigitSum(int n)
+{
+	//先计算出他的位数
+	int count = 1;
+	int temp=n;
+	int sum = 0;
+	while (temp/ 10)
+	{
+		count++;
+		temp/= 10;
+	}
+	while (n)
+	{
+		sum += (n % 10);
+		n /= 10;
+	}
+	return sum;
+	
+}
+int main()
+{
+	/*
+	写一个递归函数DigitSum(n)，输入一个非负整数，返回组成它的数字之和
+
+例如，调用DigitSum(1729)，则应该返回1+7+2+9，它的和是19
+
+输入：1729，输出：19
+*/
+	
+	int  x;
+	printf("请输入一个非负整数：》");
+	scanf("%d", &x);
+	int result = DigitSum(x);
+	printf("result=%d\n", result);
+	return 0;
+}

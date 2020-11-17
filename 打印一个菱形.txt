@@ -1,0 +1,44 @@
+#include<stdio.h>
+#include<stdlib.h>
+/*
+这个菱形每一行是由多个空格和星号组成
+
+第一行:6个空格,1个星号
+
+第二行:5个空格,3个星号
+
+第三行:4个空格,5个星号
+
+以此类推,假设菱形的一半有n行,此时n为7,,那么第i行时:有n-i个空格,2*i-1个星号
+
+那么下半部分如何打印呢?其实我们可以把这个菱形分成3个部分
+*/
+void PrintLine(int blank_count, int start_count){
+	//blank_count是空格的数目，start_count是*的数目；
+	int i = 0;
+	for (; i < blank_count; i++){
+		printf(" ");  //打印空格
+	}
+	for (i = 0; i < start_count; i++){
+		printf("*");  //打印*
+	}
+	printf("\n");
+}
+void  PrintLingxing(int n){
+	//打印上半部分
+	int i = 1;
+	for (i = 1; i < n; i++){
+		PrintLine(n - i, 2 * i - 1);  // 打印每一行的空格和每一行的星号
+	}
+	//打印中间部分
+	PrintLine(0, 2 * n - 1);
+	//打印下半部分
+	for (i = n - 1; i>0; i--){
+		PrintLine(n - i, 2 * i - 1);
+	}
+}
+int main(){
+	PrintLingxing(7);    //对半的行数
+	system("pause");
+	return 0;
+}
