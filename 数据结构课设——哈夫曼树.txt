@@ -1,0 +1,170 @@
+#include<stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define MaxSize 50
+#define Max 32767
+
+/*
+怎样生成哈夫曼树，并输出编码？
+1.生成哈夫曼树：
+（1）	一个n个字符构成的哈夫曼树，会生成n-1个新节点，
+		先初始化所有节点的父节点，左子节点，右子节点为0，
+		为前n个节点赋权值和字符值
+（2）找出两个权值最小的节点，并生成一个新的节点；
+（3）重复上一步骤直到只有一个单根；
+2.输出编码
+从最下方的节点开始出发，查找它的位置是它的父节点的左子节点还是右子节点，
+左子节点的话值为0，右子节点的话值为1，
+将对应的编码存到一个数组中，但是这个编码和要求的编码顺序是相反的，
+所以要从数组的尾部开始存储
+就这样将这n个字符的编码求出来，将他们存到哈夫曼编码数组中
+*/
+/* 定义一个一维结构体数组存放哈夫曼树的所有节点的信息 */
+typedef struct
+{
+	int weight;
+	int parent, lchild, rchild;
+}HuffermanTree[MaxSize];
+
+/* 定义一个一维结构体数组存放输入字符的信息 */
+typedef struct
+{
+	char c;
+	int w;
+	char *code;
+}HuffermanCode[MaxSize] ;
+
+//构造哈夫曼树
+void CreateHuffermanTree(HuffermanTree HT, int length, HuffermanCode HC);
+//查找权值最小和次小的节点序号
+void SelectMin(HuffermanTree HT, int n, int *min1, int *min2);
+//生成哈夫曼编码
+void HuffermanCoding(HuffermanTree HT, int n, HuffermanCode HC);
+int main()
+{
+	system("title 哈夫曼树构造及编码");
+	system("mode con lines=22 cols=37");
+	HuffermanTree HT;   //定义一个Hufferman树
+	HuffermanCode HC;   //定义一个Hufferman编码
+
+	int i,n;
+	printf("**************HuffmanCode************\n");
+	printf("请输入字符数目：》》");
+	scanf("%d", &n);
+	printf("字符数为%2d\n", n);
+	printf("请输入字符和权值，e.g：a16\n");
+	for (i = 1; i <= n; i++)
+	{
+		while (getchar() != '\n') NULL;
+		printf("No.%2d:  ", i);
+		HC[i].c = getchar();
+		scanf("%d", &HC[i].w);
+	}
+	CreateHuffermanTree(HT, n, HC);//构造一个具有n个节点的哈夫曼树
+	HuffermanCoding(HT,n,HC);//生成哈夫曼编码
+	printf("\n输出哈夫曼编码：\n");
+	for (i = 1; i <= n; i++)
+	{
+		printf("%c:", HC[i].c);
+		puts(HC[i].code);
+		printf("\n");
+	}
+	printf("*************************************\n");
+	return 0;
+}
+
+/*  构造一个哈夫曼树 */
+void CreateHuffermanTree(HuffermanTree HT, int length, HuffermanCode HC)
+{
+	if (length == 1)
+		return;
+
+	int i;
+	int min1, min2; //最小和次小的两个权值的节点序号
+	HT[0].weight = Max;       //先给第一个节点赋一个很大的数作为权值,方便比较
+
+	/*
+	初始化
+	0				（1 .... length）          length+1  ......  2*length-1
+	(舍弃）				（前length 个节点）   (新生成的length-1个节点）
+	*/
+	for (i = 1; i <= length; i++)
+	{
+		/* 先将前length个节点初始化 */
+		HT[i].weight = HC[i].w;
+		HT[i].lchild = HT[i].rchild = HT[i].parent = 0;
+	}
+	
+	for (i = length + 1; i < 2 * length; i++)
+	{
+		/*  再将生成的length-1个节点初始化 */
+		HT[i].lchild = HT[i].rchild = HT[i].parent = 0;
+	}
+	for (i = length + 1; i < 2 * length; i++)
+	{
+		/* 找出最小的两个节点*/
+		SelectMin(HT,i,&min1,&min2);
+		HT[min1].parent = i;
+		HT[min2].parent = i;
+		HT[i].lchild = min1;
+		HT[i].rchild = min2;
+		HT[i].weight = HT[min1].weight + HT[min2].weight;
+	}
+}
+
+/* 找出权值最小和次小的两个节点 */
+void SelectMin(HuffermanTree HT, int n, int *min1, int *min2)
+{
+	int i;
+	*min1= *min2 = 0;
+	for (i = 1; i < n; i++)
+	{
+		if (HT[i].parent == 0)
+		{
+			//如果父节点为0，说明这个节点是独立的
+			if (HT[*min1].weight >= HT[i].weight)
+			{
+				*min2 = *min1;
+				*min1 = i;
+			}
+			else if (HT[*min2].weight > HT[i].weight)
+			{
+				*min2 = i;
+			}
+		}
+	}
+}
+
+//生成哈夫曼编码
+void HuffermanCoding(HuffermanTree HT, int n, HuffermanCode HC)
+{
+	int i, start, c, f;
+	char *cd;
+	cd = (char *)malloc(n*sizeof(char));
+	cd[n - 1] = '\0';
+	/* 
+	从叶结点出发，向上查找直至只有一个根节点为止
+	*/
+	for (i = 1; i <= n; i++)
+	{
+		start = n - 1;//从尾部开始存储求出的编码
+		c = i; //将节点的序号存储下来
+		f = HT[i].parent;
+		//从叶子到根逆向求编码
+		while (f != 0)
+		{
+			//每回溯一次，start往移动指一个位置
+			if (HT[f].lchild == c)
+				cd[--start] ='0';
+			else
+				cd[--start] ='1';
+			c = f;	//移动到父节点
+			f = HT[f].parent;
+		}
+		/* 为第i个字符编码分配空间 */
+		HC[i].code = (char *)malloc((n - start)*sizeof(char));
+		/* 从cd复制到HC[i].code中去 */
+		strcpy(HC[i].code, &cd[start]);
+	}
+	free(cd);
+}
